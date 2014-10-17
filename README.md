@@ -48,6 +48,20 @@ Hitting `http://localhost:8080/` should then yield the first sentence of [The Na
 
 Stories are one of the two building blocks of Chronicler applications, in practice they are little more than a collection of Routes and some convenience methods to glue your application together.
 
+### `story.Register(*Route)`
+
+The `Register` method adds a route to the route stack of a given Story.
+
+It's important to note that the order of registration is highly relevant: whenever a route is matched Chronicler will take that path through the code and Routes that come after the matched one will not even be evaluated. This means that it's recommended to register more explicit Routes first and leave the more generic ones last.
+
+### `story.Explore(http.ResponseWriter, *http.Request)`
+
+The `Explore` method will look for matching routes in the stack and run the `Perform` method in the first route that matches.
+
+### `story.Serve(string)`
+
+`Serve` is called on the main story where all requests are routed, in Chronicler's jargon we call this story the **saga**, but you don't really need to remember that. :)
+
 ## Routes
 
 Routes are what makes your application tick: they will take your request further into your stack and/or execute code, sometimes modifying the original request before passing it along.
