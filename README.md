@@ -25,10 +25,10 @@ import(
 )
 
 func main() {
-  mainNode := chronicler.NewNode()
-  mainNode.Register(&home{})
+  saga := chronicler.NewStory()
+  saga.Register(&home{})
 
-  mainNode.Perform(":8080")
+  saga.Serve(":8080")
 }
 
 type home struct { }
@@ -76,15 +76,15 @@ The Match method will determine if your route will respond to a specific request
 
 The Perform method (we'll just call them Performances) is the code that will be executed when the Route is matched, this is arbitrary code and can fullfill one or more of several roles:
 
-#### Routing:
+#### Routing Performances
 
 Routing Performances take you to other places in your code, this is done by creating a new sub-story with it's own sets of Routes and delegating the requests to the sub-story. Nesting Routes makes makes it really easy to compose your application and routing tree by assigning one responsibility to each Performance.
 
 This Performance routes requests on a food delivery web app, we'll hit it with a GET /orders HTTP request.
 
 ```go
-func (r *homeNode) Perform(w http.ResponseWriter, req *http.Request) {
-  story := chronicler.NewNode()
+func (r *home) Perform(w http.ResponseWriter, req *http.Request) {
+  story := chronicler.NewStory()
   story.Register(&sessions{})    // This Route will not be matched by GET /orders
   story.Register(&orders{})      // but this one will.
   story.Register(&restaurants{}) // This one won't even be evaluated.
@@ -122,7 +122,7 @@ func (r *orders) Perform(w http.ResponseWriter, req *http.Request) {
 The starting poing of this flow is a Routing Performance that registers several possible routes, our GET /orders HTTP request will be evaluated against orders.Match successfully, and so orders.Perform will be called, starting another Match cycle.
 
 
-#### Transformations
+#### Transforming Performances
 
 Transformations are changes that any given Performance can apply to the request it receives, different parts of your application will benefit from working under a given set of circumstances which you can refine as the requests moves through the Routes in your application.
 
