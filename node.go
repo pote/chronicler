@@ -21,7 +21,7 @@ func NewNode() *Node {
 
 // Register takes a pointer to a Route interface and adds it to the stack,
 // it's important to note that *the order in which we register routes is significant*
-// as you'll read in the #Travel method description.
+// as you'll read in the #Dispatch method description.
 func (n *Node) Register(route Route) {
 	n.Routes = append(n.Routes, route)
 }
