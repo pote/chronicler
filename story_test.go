@@ -6,28 +6,28 @@ import(
 	"testing"
 )
 
-func TestSingleRouteNode(t *testing.T) {
-	node := NewNode()
-	node.Register(&episode{})
+func TestSingleRouteStory(t *testing.T) {
+	story := NewStory()
+	story.Register(&episode{})
 
 	writer := NewFakeWriter()
 	req := http.Request{}
 
-	node.Dispatch(writer, &req)
+	story.Explore(writer, &req)
 
 	if writer.Text() != "It was night again. The Waystone Inn lay in silence, and it was a silence of three parts.\n" {
-		t.Error("Could not match the main node")
+		t.Error("Could not match the main Story")
 	}
 }
 
 func TestNesting(t *testing.T) {
-	node := NewNode()
-	node.Register(&arch{})
+	story := NewStory()
+	story.Register(&arch{})
 
 	writer := NewFakeWriter()
 	req := http.Request{}
 
-	node.Dispatch(writer, &req)
+	story.Explore(writer, &req)
 
 	if writer.Text() != "I am a comedy, and so we will laugh."{
 		t.Error("Did not match the intended route")
@@ -35,9 +35,9 @@ func TestNesting(t *testing.T) {
 }
 
 func TestServe(t *testing.T) {
-	node := NewNode()
-	node.Register(&episode{})
-	go node.Serve(":2814")
+	story := NewStory()
+	story.Register(&episode{})
+	go story.Serve(":2814")
 
 	resp, err :=  http.Get("http://localhost:2814")
 	if err != nil {

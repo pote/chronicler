@@ -4,11 +4,12 @@ import(
 	"net/http"
 )
 
-// Routes are what makes your application tick: while Nodes group together a
-// number of possible routes these routes will take your request further into
-// your stack and/or execute code, sometimes modifying the original request
+// Routes are what makes your application tick: while Stories group together a
+// number of possible routes the routes themselves will take your request further
+// into your stack and/or execute code, sometimes modifying the original request
 // before passing it along.
 type Route interface {
+
 	// The Match method will determine if your route will respond to a specific
 	// request, they can run arbitrary code in order to make this disctintion
 	// ranging from evaluating the Request path and HTTP verb to checking the
@@ -22,7 +23,7 @@ type Route interface {
 	// ## Routing:
 	//
 	// Routing Performances take you to other places in your code, this is done by
-	// registering a new Node with it's own sets of Routes, nesting Routes makes
+	// registering a new Story with it's own sets of Routes, nesting Routes makes
 	// makes it really easy to compose your application and routing tree by assigning
 	// one responsibility to each Performance.
 	//
@@ -32,13 +33,13 @@ type Route interface {
 	// a GET /orders HTTP request.
 	//
 	// ```
-	// func (r *homeNode) Perform(w http.ResponseWriter, req *http.Request) {
-	//   node := chronicler.NewNode()
-	//   node.Register(&orders{})      // Our request will match this Route.
-	//   node.Register(&restaurants{}) // This one won't even be evaluated
-	//   node.Register(&sessions{})    // Nor this one.
+	// func (r *homeStory) Perform(w http.ResponseWriter, req *http.Request) {
+	//   story := chronicler.NewStory()
+	//   story.Register(&orders{})      // Our request will match this Route.
+	//   story.Register(&restaurants{}) // This one won't even be evaluated
+	//   story.Register(&sessions{})    // Nor this one.
 	//
-	//   node.Dispatch(w, req)
+	//   story.Explore(w, req)
 	// }
 	//
 	// type orders struct { }
@@ -51,11 +52,11 @@ type Route interface {
 	//   return strings.HasPrefix(req.URL.Path, "/orders")
 	// }
 	// func (r *orders) Perform(w http.ResponseWriter, req *http.Request) {
-	//   node := chronicler.NewNode()
-	//   node.Register(&newOrder{})
-	//   node.Register(&orderIndex{})
+	//   story := chronicler.NewStory()
+	//   story.Register(&newOrder{})
+	//   story.Register(&orderIndex{})
 	//
-	//   node.Dispatch(w, req)
+	//   story.Explore(w, req)
 	// }
 	// ```
 	// The starting poing of this flow is a Routing Performance that registers several possible
@@ -76,13 +77,13 @@ type Route interface {
 	//
 	// ```
 	// func (r *userOrders) Perform(w http.ResponseWriter, req *http.Request) {
-	//   node := chronicler.NewNode()
-	//   node.Register(&orders{})
+	//   story := chronicler.NewStory()
+	//   story.Register(&orders{})
 	//
 	//   // There's a helper for this, but we'll talk about that later. :)
 	//   req.URL.Path = strings.TrimPrefix(req.URL.Path, "/user")
 	//
-	//   node.Dispatch(w, req)
+	//   story.Explore(w, req)
 	// }
 	// ```
 	// This is a common transformation of a request as you usually want the inner routes

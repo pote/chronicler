@@ -55,11 +55,11 @@ func (r *arch) Match(req *http.Request) (bool) {
 }
 
 func (r *arch) Perform(w http.ResponseWriter, req *http.Request) {
-	development := NewNode()
+	development := NewStory()
 	development.Register(&tragedy{})
 	development.Register(&comedy{})
 	development.Register(&legend{})
-	development.Dispatch(w, req)
+	development.Explore(w, req)
 }
 
 type tragedy struct { }

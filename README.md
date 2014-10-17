@@ -12,7 +12,7 @@ You can look at [Chronicler's GoDoc page](https://godoc.org/github.com/pote/chro
 
 ## The Basics
 
-The concept of Chronicler is simple: your application will be composed of **nodes** and **routes**, nodes group routes which represent both a set of matching conditions and the code to be executed if these conditions are met.
+The concept of Chronicler is simple: your application will be composed of **stories** and **routes**, stories group together routes which in turn  represent both a set of matching conditions and the code to be executed if these conditions are met.
 
 A very basic Chronicler application will look like this:
 
@@ -43,3 +43,98 @@ func (r *home) Perform(w http.ResponseWriter, req *http.Request) {
 ```
 
 Hitting `http://localhost:8080/` should then yield the first sentence of [The Name of the Wind](http://www.amazon.com/Name-Wind-Kingkiller-Chronicle-Day-ebook/dp/B0010SKUYM/ref=sr_1_1?ie=UTF8&qid=1413554542&sr=8-1&keywords=The+Name+of+the+Wind), easy as pie.
+
+## Stories
+
+Stories are one of the two building blocks of Chronicler applications, in practice they are little more than a collection of Routes and some convenience methods to glue your application together.
+
+## Routes
+
+Routes are what makes your application tick: they will take your request further into your stack and/or execute code, sometimes modifying the original request before passing it along.
+
+Routes are interfaces and as such they can be anything you want as long as they implement the following methods:
+
+### `route.Match(*http.Request) bool`
+
+The Match method will determine if your route will respond to a specific request, this is a regular method and can run arbitrary code in order to make this disctintion ranging from evaluating the Request path and HTTP verb to checking the time of the day or reacting differently depending on header values or authentication status, anything and everything that you can imagine.
+
+### `route.Perform(http.ResponseWriter, *http.Request)`
+
+The Perform method (we'll just call them Performances) is the code that will be executed when the Route is matched, this is arbitrary code and can fullfill one or more of several roles:
+
+#### Routing:
+
+Routing Performances take you to other places in your code, this is done by creating a new sub-story with it's own sets of Routes and delegating the requests to the sub-story. Nesting Routes makes makes it really easy to compose your application and routing tree by assigning one responsibility to each Performance.
+
+This Performance routes requests on a food delivery web app, we'll hit it with a GET /orders HTTP request.
+
+```go
+func (r *homeNode) Perform(w http.ResponseWriter, req *http.Request) {
+  story := chronicler.NewNode()
+  story.Register(&sessions{})    // This Route will not be matched by GET /orders
+  story.Register(&orders{})      // but this one will.
+  story.Register(&restaurants{}) // This one won't even be evaluated.
+
+  story.Explore(w, req)
+}
+
+type sessions struct { }
+
+func (r *sessions) Match(req *http.Request) bool {
+  return req.Headers.Get("Authorization") == "secret token"
+}
+func (r *sessions) Perform(w http.ResponseWriter, req *http.Request) {
+  // No Op
+}
+
+type orders struct { }
+func (r *orders) currentUser(req *http.Request) *User {
+  token := req.Header.Get("Authorization")
+  user := // get your user through your ORM of choice. :)
+  return user
+}
+func (r *orders) Match(req *http.Request) (bool) {
+  return strings.HasPrefix(req.URL.Path, "/orders")
+}
+func (r *orders) Perform(w http.ResponseWriter, req *http.Request) {
+  story := chronicler.NewStory()
+  story.Register(&newOrder{})
+  story.Register(&orderIndex{})
+
+  story.Explore(w, req)
+}
+```
+
+The starting poing of this flow is a Routing Performance that registers several possible routes, our GET /orders HTTP request will be evaluated against orders.Match successfully, and so orders.Perform will be called, starting another Match cycle.
+
+
+#### Transformations
+
+Transformations are changes that any given Performance can apply to the request it receives, different parts of your application will benefit from working under a given set of circumstances which you can refine as the requests moves through the Routes in your application.
+
+Transformations are similar to the concept of a [middleware stack](http://en.wikipedia.org/wiki/Middleware) except they are naturally scoped to a given Route - and by extension to all routes nested within it.
+
+
+```go
+func (r *userOrders) Perform(w http.ResponseWriter, req *http.Request) {
+  story := chronicler.NewStory()
+  story.Register(&orders{})
+
+  // There's a helper for this, but we'll talk about that later. :)
+  req.URL.Path = strings.TrimPrefix(req.URL.Path, "/user")
+
+  story.Explore(w, req)
+}
+```
+
+This is a common transformation of a request as you usually want the inner routes o not have to deal with parts of the URL that have already been matched. This is however only a tiny example of transformations: you are free to run arbitrary code in your Performances so anything is game here. Transformations are commonly used in Routing Performances.
+
+#### Conclusions
+
+Conclusions are Performances that don't propagate the request to any other routes, they're the final destination for the request in the matched routing tree. They tipically represent a specific flow in your application such as "creating a user and return it as json".
+
+```go
+func (r *ending) Perform(w http.ResponseWriter, req *http.Request) {
+  io.WriteString(w, "And they lived happily ever after.")
+}
+```
