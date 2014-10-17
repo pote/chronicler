@@ -5,16 +5,7 @@ import(
 	"net/http"
 )
 
-type prologue struct { }
-
-func (m *prologue) Match(req *http.Request) (bool) {
-	return true
-}
-
-func (n *prologue) Story(w http.ResponseWriter, req *http.Request) {
-	io.WriteString(w, "It was night again. The Waystone Inn lay in silence, and it was a silence of three parts.\n")
-}
-
+// A writer we can test easily.
 type fakeWriter struct {
 	data   []byte
 }
@@ -41,4 +32,62 @@ func NewFakeWriter() *fakeWriter {
 	return &fakeWriter{
 		data: []byte{},
 	}
+}
+
+
+
+// A short route that will always be matched
+type episode struct { }
+
+func (r *episode) Match(req *http.Request) (bool) {
+	return true
+}
+
+func (r *episode) Perform(w http.ResponseWriter, req *http.Request) {
+	io.WriteString(w, "It was night again. The Waystone Inn lay in silence, and it was a silence of three parts.\n")
+}
+
+// A Performance with three possible paths.
+type arch struct { }
+
+func (r *arch) Match(req *http.Request) (bool) {
+	return true
+}
+
+func (r *arch) Perform(w http.ResponseWriter, req *http.Request) {
+	development := NewNode()
+	development.Register(&tragedy{})
+	development.Register(&comedy{})
+	development.Register(&legend{})
+	development.Dispatch(w, req)
+}
+
+type tragedy struct { }
+
+func (r *tragedy) Match(req *http.Request) (bool) {
+	return false
+}
+
+func (r *tragedy) Perform(w http.ResponseWriter, req *http.Request) {
+	io.WriteString(w, "I am a tragedy, and so we must endure.")
+}
+
+type comedy struct { }
+
+func (r *comedy) Match(req *http.Request) (bool) {
+	return true
+}
+
+func (r *comedy) Perform(w http.ResponseWriter, req *http.Request) {
+	io.WriteString(w, "I am a comedy, and so we will laugh.")
+}
+
+type legend struct { }
+
+func (r *legend) Match(req *http.Request) (bool) {
+	return true
+}
+
+func (r *legend) Perform(w http.ResponseWriter, req *http.Request) {
+	io.WriteString(w, "I am a legend, so I will never end.")
 }
