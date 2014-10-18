@@ -35,7 +35,7 @@ func (n *Story) Explore(w http.ResponseWriter, req *http.Request) (bool) {
 	for _, path := range n.Routes {
 		if path.Match(req) {
 			if n.Logging {
-				log.Printf("Matched request: %v\n", req)
+				log.Printf("Matched %v to %v\n", req.Method, req.URL.Path)
 			}
 			path.Perform(w, req)
 			return true

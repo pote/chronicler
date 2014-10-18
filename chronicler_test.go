@@ -2,6 +2,7 @@ package chronicler
 
 import(
 	"io"
+	"net/url"
 	"net/http"
 )
 
@@ -31,6 +32,15 @@ func (f *fakeWriter) Text() string {
 func NewFakeWriter() *fakeWriter {
 	return &fakeWriter{
 		data: []byte{},
+	}
+}
+
+func NewFakeRequest() *http.Request {
+	return &http.Request{
+		Method: "POST",
+		URL: &url.URL{
+			Path: "/messages",
+		},
 	}
 }
 

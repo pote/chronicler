@@ -11,9 +11,9 @@ func TestSingleRouteStory(t *testing.T) {
 	story.Register(&episode{})
 
 	writer := NewFakeWriter()
-	req := http.Request{}
+	req := NewFakeRequest()
 
-	story.Explore(writer, &req)
+	story.Explore(writer, req)
 
 	if writer.Text() != "It was night again. The Waystone Inn lay in silence, and it was a silence of three parts.\n" {
 		t.Error("Could not match the main Story")
@@ -25,9 +25,9 @@ func TestNesting(t *testing.T) {
 	story.Register(&arch{})
 
 	writer := NewFakeWriter()
-	req := http.Request{}
+	req := NewFakeRequest()
 
-	story.Explore(writer, &req)
+	story.Explore(writer, req)
 
 	if writer.Text() != "I am a comedy, and so we will laugh."{
 		t.Error("Did not match the intended route")
