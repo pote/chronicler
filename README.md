@@ -1,6 +1,6 @@
 # Chronicler - A Storytelling Web Toolkit. ![travis](https://api.travis-ci.org/pote/chronicler.svg)
 
-Chronicler is a toolkit for web request routing in Go, it's very heavily influenced by [Cuba](http://cuba.is/), a fantastic web microframework for Ruby. The bulk of Go and Ruby web frameworks are heavily influenced by [Rails](https://github.com/rails/rails) or [Sinatra](https://github.com/sinatra/sinatra) when it comes to request routing: all of them base their routing in evaluating the http request verb and/or path, **what sets Chronicle and Cuba apart is the notion of requests evaluating arbitrary conditions and code to create the routing tree**. This is a very powerful idea.
+Chronicler is a toolkit for web request routing in Go, it's very heavily influenced by [Cuba](http://cuba.is/), a fantastic web microframework for Ruby. The bulk of Go and Ruby web frameworks are heavily influenced by [Rails](https://github.com/rails/rails) or [Sinatra](https://github.com/sinatra/sinatra) when it comes to request routing: their routing is based in evaluating the http request verb and/or path, **what sets Chronicle and Cuba apart is the notion of requests evaluating arbitrary conditions and code to create the routing tree**. This is a very powerful idea.
 
 You can read more about this in the article [Much Ado About Traversal](http://pyramid.readthedocs.org/en/latest/narr/muchadoabouttraversal.html) that discusses similar concepts and how they apply to Python's [Pyramid](http://pyramid.readthedocs.org/en/latest/) framework.
 
