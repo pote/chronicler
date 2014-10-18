@@ -42,8 +42,9 @@ func (r *home) Perform(w http.ResponseWriter, req *http.Request) {
   io.WriteString(w, "It was night again. The Waystone Inn lay in silence, and it was a silence of three parts.\n")
 }
 ```
+![chronicler-gif](chronicler.gif)
 
-Hitting `http://localhost:8080/` should then yield the first sentence of [The Name of the Wind](http://www.amazon.com/Name-Wind-Kingkiller-Chronicle-Day-ebook/dp/B0010SKUYM/ref=sr_1_1?ie=UTF8&qid=1413554542&sr=8-1&keywords=The+Name+of+the+Wind), easy as pie.
+By the way, the references are from [The Name of the Wind](http://www.amazon.com/Name-Wind-Kingkiller-Chronicle-Day-ebook/dp/B0010SKUYM/ref=sr_1_1?ie=UTF8&qid=1413554542&sr=8-1&keywords=The+Name+of+the+Wind), you should read it if you like fantasy. :)
 
 ## Stories
 
