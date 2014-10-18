@@ -79,7 +79,7 @@ The Perform method (we'll just call them Performances) is the code that will be 
 
 #### Routing Performances
 
-Routing Performances take you to other places in your code, this is done by creating a new sub-story with it's own sets of Routes and delegating the requests to the sub-story. Nesting Routes makes makes it really easy to compose your application and routing tree by assigning one responsibility to each Performance.
+Routing Performances take you to other places in your code, this is done by creating a new sub-story with it's own sets of Routes and delegating the requests to the sub-story. Nesting Routes makes it really easy to compose your application and routing tree by assigning one responsibility to each Performance.
 
 This Performance routes requests on a food delivery web app, we'll hit it with a GET /orders HTTP request.
 
