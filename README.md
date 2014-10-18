@@ -48,7 +48,7 @@ Hitting `http://localhost:8080/` should then yield the first sentence of [The Na
 
 ## Stories
 
-Stories are one of the two building blocks of Chronicler applications, in practice they are little more than a collection of Routes and some convenience methods to glue your application together.
+Stories are one of the two building blocks of Chronicler applications, in practice they are little more than a collection of Routes and some convenience methods to glue your application together, if I didn't think that life is too short to always code using boring and intuitive naming I probably would have called them Nodes.
 
 ### `story.Register(*Route)`
 
