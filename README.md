@@ -6,6 +6,8 @@ This project started with the intention of being a simple port of Cuba but the d
 
 **DISCLAIMER**: This is right now at a "proof of concept" stage, please don't go sending it around to people until I can make a proper release, but do open issues or ping me in irc for feedback, I hang out at #lesscode in freenode :).
 
+![kvothe](chronicler.png)
+
 ## GoDoc
 
 You can look at [Chronicler's GoDoc page](https://godoc.org/github.com/pote/chronicler) for more documentation.
