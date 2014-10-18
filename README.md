@@ -1,4 +1,4 @@
-# Chronicler - A Storytelling web toolkit.
+# Chronicler - A Storytelling web toolkit. ![travis](https://api.travis-ci.org/pote/chronicler.svg)
 
 Chronicler is a toolkit for web request routing in Go, it's very heavily influenced by [Cuba](http://cuba.is/), a fantastic web microframework for Ruby. What separates Chronicler and Cuba from the bulk of other web toolkits (at least in Rubyland and Goland) is the notion that the ramifications of the routing tree can be determined by arbitrary code and conditions as opposed to being strictly bound to evaluating the path of an http request or it's verb. This is a very powerful idea.
 
