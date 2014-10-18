@@ -95,7 +95,6 @@ func (r *home) Perform(w http.ResponseWriter, req *http.Request) {
 }
 
 type sessions struct { }
-
 func (r *sessions) Match(req *http.Request) bool {
   return req.Headers.Get("Authorization") == "secret token"
 }
