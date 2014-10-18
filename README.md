@@ -14,7 +14,7 @@ You can look at [Chronicler's GoDoc page](https://godoc.org/github.com/pote/chro
 
 ## The Basics
 
-The concept of Chronicler is simple: your application will be composed of **stories** and **routes**, stories group together routes which in turn  represent both a set of matching conditions and the code to be executed if these conditions are met.
+The concept behind Chronicler is quite simple: your application will be composed of **stories** and **routes**, stories group together routes which in turn  represent both a set of matching conditions and the code to be executed if these conditions are met.
 
 A very basic Chronicler application will look like this:
 
@@ -24,6 +24,7 @@ package main
 import(
   "github.com/pote/chronicler"
   "io"
+  "net/http"
 )
 
 func main() {
