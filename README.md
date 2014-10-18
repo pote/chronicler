@@ -35,11 +35,9 @@ func main() {
 }
 
 type home struct { }
-
 func (r *home) Match(req *http.Request) bool {
   return true
 }
-
 func (r *home) Perform(w http.ResponseWriter, req *http.Request) {
   io.WriteString(w, "It was night again. The Waystone Inn lay in silence, and it was a silence of three parts.\n")
 }
