@@ -52,5 +52,6 @@ func (n *Story) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 // Serve is called on the parent Story of your application: it'll start
 // a server bound to a given address and route all requests to it.
 func (n *Story) Serve(addr string) {
+	log.Println(`Chronicler shook his head and Bast gave a frustrated sigh. "How about plays? Have you seen The Ghost and the Goosegirl or The Ha'penny King?`)
 	http.ListenAndServe(addr, n)
 }
