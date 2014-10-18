@@ -4,7 +4,7 @@ Chronicler is a toolkit for web request routing in Go, it's very heavily influen
 
 This project started with the intention of being a simple port of Cuba but the differences in the languages they are implemented in forced me to adapt Cuba's ideas to a more idiomatic approach, Chronicler is the result of that effort.
 
-**DISCLAIMER**: This is right now at a "proof of concept" stage, although I plan to start using it and move towards a making a stable release. Please do open issues or ping me in irc for feedback, I hang out at #lesscode in freenode :).
+**DISCLAIMER**: This is right now at a "proof of concept" stage, although I plan to start using it and move towards making a stable release. Please do open issues or ping me in irc for feedback, I hang out at #lesscode in freenode :).
 
 ![kvothe](chronicler.png)
 
