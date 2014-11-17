@@ -53,5 +53,6 @@ func (n *Story) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 // a server bound to a given address and route all requests to it.
 func (n *Story) Serve(addr string) {
 	log.Println(`Chronicler shook his head and Bast gave a frustrated sigh. "How about plays? Have you seen The Ghost and the Goosegirl or The Ha'penny King?`)
+	log.Println(`Listening to HTTP calls on localhost:` + addr)
 	http.ListenAndServe(addr, n)
 }
