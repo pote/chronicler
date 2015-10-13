@@ -2,6 +2,7 @@ package chronicler
 
 import(
 	"log"
+	"reflect"
 	"net/http"
 )
 
@@ -35,7 +36,7 @@ func (n *Story) Explore(w http.ResponseWriter, req *http.Request) (bool) {
 	for _, path := range n.Routes {
 		if path.Match(req) {
 			if n.Logging {
-				log.Printf("Matched %v %v\n", req.Method, req.URL.Path)
+				log.Printf("Matched %v %v to %v\n", req.Method, req.URL.Path, reflect.TypeOf(path).Elem().Name())
 			}
 			path.Perform(w, req)
 			return true
